@@ -1,9 +1,20 @@
+# TODO
+# Clean up code.
+# create feature raws based on dictionary<address,SS>
+# separate out my personal device data for testing the model - deviceId - 7d8dcfb.
+# Try following preprocessing
+# 1. average SS per AP for a single deviceId (only Pi devices)
+# 2. minimum SS per AP for a single deviceId (only Pi devices)
+# 3. convert dBm to mW
+# Target mean absolute error < 1.0e-6
+# Chart the spots generated in UI (generate another .json)
+
 import numpy as np
 import json
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_absolute_error
 
 with open("signals.json") as fp:
     data = json.load(fp)
@@ -11,6 +22,9 @@ with open("signals.json") as fp:
 # transform data
 location_data = []
 signal_data = []
+
+a = ""
+a.startswith
 
 for device_info in data:
     location_data.append(
@@ -50,5 +64,7 @@ y_pred = y_scaler.inverse_transform(y_pred_scaled)
 
 # Evaluate model
 y_test_original = y_scaler.inverse_transform(y_test)
-mse = mean_squared_error(y_test_original, y_pred)
+print(y_test_original)
+print(y_pred)
+mse = mean_absolute_error(y_test_original, y_pred)
 print(f"Mean Squared Error: {mse}")

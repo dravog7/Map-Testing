@@ -4,7 +4,7 @@
 
     let filterText: string;
 
-    $: filterSignature = wifiInfo.signature.filter((it: { address: string | any[]; }) => !filterText || it.address.includes(filterText))
+    $: filterSignature = wifiInfo?.signature?.filter((it: { address: string | any[]; }) => !filterText || it.address.includes(filterText)) ?? [];
 </script>
 
 <div class="flex flex-col p-2 h-full">

@@ -2,7 +2,7 @@
 	"name": "wifimap",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "vite dev --port 3000",
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -35,6 +35,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"sveaflet": "^0.0.8"
+		"sveaflet": "^0.0.8",
+		"sveaflet-markercluster": "^0.0.2"
 	}
 }
