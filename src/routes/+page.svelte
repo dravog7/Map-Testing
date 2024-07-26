@@ -12,7 +12,7 @@
 	let clicked: number | null = null;
 	let deviceId: string = '';
 
-	// $: filterWifiInfo = $wifiInfo.filter((it: { deviceId: { includes: (arg0: string) => any; }; }) => it.deviceId.includes(deviceId));
+	$: filterWifiInfo = $wifiInfo.filter((it: { deviceId: { includes: (arg0: string) => any; }; }) => it.deviceId.includes(deviceId));
 </script>
 
 <div class="absolute inset-x-0 top-0 h-auto rounded-md flex justify-center" style="z-index: 1000;">
