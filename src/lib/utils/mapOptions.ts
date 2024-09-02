@@ -17,7 +17,7 @@ const thunderforest: MapInfo = {
 }
 
 const google: MapInfo = {
-    mapUrl: 'http://{s}.google.com/vt?lyrs=s&x={x}&y={y}&z={z}',
+    mapUrl: 'http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}',
     option: {
         maxZoom: 22,
         subdomains:['mt0','mt1','mt2','mt3']

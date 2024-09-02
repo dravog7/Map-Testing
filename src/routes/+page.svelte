@@ -1,18 +1,34 @@
 <script lang="ts">
-	import { ImageOverlay, Map, TileLayer } from 'sveaflet';
-	import overlayImage from '$lib/images/map.png';
+	import { CircleMarker, ImageOverlay, Map, TileLayer } from 'sveaflet';
 	import mapInfo from '$lib/utils/mapOptions';
+	import planInfo from '$lib/utils/planOptions';
 	import { wifiInfo } from '$lib/viewModels/WifiInfoViewModel';
 	import ClickableMarker from './ClickableMarker.svelte';
 	import LatLngIndicator from './LatLngIndicator.svelte';
 	import WifiInfoDisplay from './WifiInfoDisplay.svelte';
 	import { MarkerCluster } from 'sveaflet-markercluster';
+	import wifiIcon from '$lib/images/wifi.svg';
+	import deviceIcon from '$lib/images/device.svg';
+	import predictionIcon from '$lib/images/prediction.svg';
+	import piIcon from '$lib/images/pi.svg';
+	import L from 'leaflet';
 
 	let map: Map;
 	let clicked: number | null = null;
 	let deviceId: string = '';
 
-	$: filterWifiInfo = $wifiInfo.filter((it: { deviceId: { includes: (arg0: string) => any; }; }) => it.deviceId.includes(deviceId));
+	function getIcon(device: any,selected: string){
+		if(selected && device.deviceId.includes(selected))
+			return wifiIcon;//'red';
+		// else if(device.deviceId.startsWith("ap-"))
+		// 	return wifiIcon;
+		// else if(device.deviceId.startsWith("prediction"))
+		// 	return predictionIcon;
+		else if(device.deviceType === 2)
+			return piIcon;
+		else
+			return deviceIcon;
+	}
 </script>
 
 <div class="absolute inset-x-0 top-0 h-auto rounded-md flex justify-center" style="z-index: 1000;">
@@ -22,29 +38,31 @@
 <div class="w-full h-screen">
 	<Map
 		options={{
-			center: [10.011411, 76.366505],
-			zoom: 24
+			center: planInfo.center, //[10.011411, 76.366505],
+			zoom: planInfo.zoom,
+			crs: planInfo.crs,
+			minZoom:planInfo.minZoom,
 		}}
 		bind:instance={map}
 	>
-		<TileLayer url={mapInfo.mapUrl} options={mapInfo.option} />
-		<!-- <ImageOverlay 
-			url={overlayImage} 
-			bounds={[
-			[10.011649,76.366796],
-			[10.011176,76.36672]
-			]}
-			/> -->
-		<!-- <LatLngIndicator mapInstance={map} /> -->
-		{#each $wifiInfo as device, i}
+		<ImageOverlay 
+			url={planInfo.image} 
+			bounds={planInfo.bounds}
+			/>
+		<LatLngIndicator mapInstance={map} />
+		<!-- {#each $wifiInfo as device, i (i)}
 			<ClickableMarker
 				position={[device.location.latitude, device.location.longitude]}
-				color={deviceId && device.deviceId.includes(deviceId) ? 'red' : 'blue'}
+				icon={getIcon(device,deviceId)}
 				on:click={(e) => {
 					clicked = i;
 				}}
 			/>
-		{/each}
+		{/each} -->
+		<CircleMarker
+		latLng={[0,0]}
+		options={{radius:10, color:"#ff8f8f"}}
+		/>
 	</Map>
 </div>
 {#if clicked != null}

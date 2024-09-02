@@ -1,12 +1,11 @@
 <script lang="ts">
-	import type { LatLngTuple, LeafletMouseEvent } from 'leaflet';
-	import { Icon, CircleMarker } from 'sveaflet';
+	import { Icon, Marker } from 'sveaflet';
 	import { createEventDispatcher } from 'svelte';
 	export let position: number[];
-	export let color: string;
+	export let icon: string;
 
 	const dispatch = createEventDispatcher();
-	let marker: CircleMarker;
+	let marker: Marker;
 
 	$: if (marker) {
 		marker.on('click', (e: CustomEvent) => {
@@ -15,8 +14,12 @@
 	}
 </script>
 
-<CircleMarker
+<Marker
 	latLng={[position[0], position[1]]}
-	options={{ radius: 6, color: color }}
 	bind:instance={marker}
-></CircleMarker>
+>
+	<Icon options={{
+		iconUrl: icon,
+		iconSize: [24,24]
+	}}></Icon>
+</Marker>
